@@ -109,3 +109,6 @@ eagle.epf
 
 # backup file
 *~
+
+# Distribution tar
+*.tar.gz
