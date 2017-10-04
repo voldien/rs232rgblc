@@ -136,8 +136,13 @@ extern R232LCDS uint32_t r232lc_get_state(const RS232LC* state);
 
 /**
  *	Get version of the firmware on the r232 LED controller.
+ *
+ *	\state
+ *
+ *	\pversion character pointer.
  */
-extern R232LCDS void rs232lc_get_version(const RS232LC* state, char* pversion);
+extern R232LCDS void rs232lc_get_version(const RS232LC* __restrict__ state,
+        char* __restrict__ pversion, int len);
 
 /**
  *	Get version of driver.

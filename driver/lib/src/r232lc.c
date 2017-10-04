@@ -187,7 +187,8 @@ uint32_t r232lc_get_state(const RS232LC* state){
 	return state;
 }
 
-void rs232lc_get_version(const RS232LC* state, char* pversion){
+void rs232lc_get_version(const RS232LC* __restrict__ state,
+        char* __restrict__ pversion, int len){
 	rs232lc_read(state, (uint8_t*)pversion, 10);
 }
 
