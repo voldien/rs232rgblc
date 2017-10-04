@@ -120,12 +120,18 @@ extern R232LCDS uint8_t rs232lc_get_baud(RS232LC* state);
  *
  *	@Return status
  */
-extern R232LCDS int rs232lc_set_rgb(RS232LC* state, uint32_t rgb);
+extern R232LCDS int rs232lc_set_rgb(const RS232LC* state, uint32_t rgb);
 
 /**
  *	Set/Get animation.
  */
-extern R232LCDS void rs232lc_set_anim(RS232LC* state, uint32_t anim);
+extern R232LCDS void rs232lc_set_anim(const RS232LC* state, uint32_t anim);
+
+/**
+ *	Get animation state
+ *
+ *	@Return
+ */
 extern R232LCDS uint32_t rs232lc_get_anim(const RS232LC* state);
 
 /**

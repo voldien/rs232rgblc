@@ -156,11 +156,11 @@ uint8_t rs232lc_get_baud(RS232LC* state){
 	return baud;
 }
 
-int rs232lc_set_rgb(RS232LC* state, uint32_t rgb){
-	return rs232lc_write(state, R232LCP_SET_LEDD, (const uint8_t*)&rgb, 3);
+int rs232lc_set_rgb(const RS232LC* state, uint32_t rgb){
+	return rs232lc_write(state, R232LCP_SET_LEDD, (const uint8_t*)&rgb, sizeof(uint8_t) * 3);
 }
 
-void rs232lc_set_anim(RS232LC* state, uint32_t anim){
+void rs232lc_set_anim(const RS232LC* state, uint32_t anim){
 	rs232lc_write(state, R232LCP_SET_ANIM, &anim, 1);
 }
 uint32_t rs232lc_get_anim(const RS232LC* state){
