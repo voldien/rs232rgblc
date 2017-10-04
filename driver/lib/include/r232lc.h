@@ -23,10 +23,11 @@
 #include<stdlib.h>
 
 /**
- *	RS232 RGB LED controller.
+ *	RS232 RGB LED controller state
+ *	memory context.
  */
 typedef struct rs232lc_t{
-	int fd;				/*	file descriptor with */
+	int fd;			/*	file descriptor with */
 	unsigned int state;	/*	Current flag states.	*/
 	unsigned int pwm;	/*	Current pulse with modulation.	*/
 	unsigned int anim;	/*	Currant animation index.	*/
@@ -39,7 +40,9 @@ typedef struct rs232lc_t{
 #define R232LC_RGB(r, g, b) ((( ( r ) & 0xff) << 0) | (( ( g ) & 0xff) << 8) | (( ( b ) & 0xff) << 16) )
 
 /**
- *	States.
+ *	Animation states, which all the possible
+ *	builtin animation supported on the controller.
+ *	
  */
 #define STATE_ANIM      0x8	/*	*/
 
@@ -78,7 +81,7 @@ const uint32_t baudrates[] = {
 };
 
 
-#ifdef __cplusplus
+#ifdef __cplusplus	/*	C++ environment */
 extern "C"{
 #endif
 
@@ -87,12 +90,20 @@ extern "C"{
  *	invoked before using the functions in this
  *	library.
  *
+ *	\state non initilized state.
+ *
+ *	\fd file descriptor assoicated with the serial
+ *	port.
+ *
  *	@Return non zero if successfully.
  */
 extern R232LCDS int rs232lc_init(RS232LC* state, int fd);
 
 /**
- *
+ *	Close the current driver. This function simply
+ *	cleans up the resources associated with the
+ *	driver state and file descriptor uses for communicating
+ *	via the external serial port.
  */
 extern R232LCDS int rs232lc_close(RS232LC* state);
 
@@ -102,18 +113,36 @@ extern R232LCDS int rs232lc_close(RS232LC* state);
  *	@Return
  */
 extern R232LCDS void rs232lc_set_pwm(RS232LC* state, uint8_t pwm);
+
+/**
+ *	Get the current pwm (pulse width modulation)
+ *	on the controller board.
+ */
 extern R232LCDS uint8_t rs232lc_get_pwm(RS232LC* state);
 
 /**
- *	Set/Get baud rate.
+ *	Set baud rate used for communiucation. The higher the
+ *	rate the more data can be sent. howerver, the integrity
+ *	of the data may get lost.
  *
- *	@Return status.
+ *	\state
+ *	
+ *	\baud rate enumerator
  */
 extern R232LCDS int rs232lc_set_baud(RS232LC* state, uint8_t baud);
+
+/**
+ *	Get baud rate of the controller. This will not query
+ *	the controller, rather it will return the stored baud
+ *	rate on the system.
+ *
+ *	@Return baud rate enumerator.
+ */
 extern R232LCDS uint8_t rs232lc_get_baud(RS232LC* state);
 
 /**
- *	Write rgb.
+ *	Write next RGB color.
+ *
  *	\state
  *
  *	\rgb use R232LC_RGB for assigning rgb
@@ -138,6 +167,11 @@ extern R232LCDS uint32_t rs232lc_get_anim(const RS232LC* state);
  *	Set/Get bitwise state.
  */
 extern R232LCDS void r232lc_set_state(RS232LC* state, unsigned int state);
+
+/**
+ *	Get quad word state flag of the controller.
+ *	@Return
+ */
 extern R232LCDS uint32_t r232lc_get_state(const RS232LC* state);
 
 /**
@@ -146,12 +180,15 @@ extern R232LCDS uint32_t r232lc_get_state(const RS232LC* state);
  *	\state
  *
  *	\pversion character pointer.
+ *	
+ *	\len length of character pointer in bytes.
  */
 extern R232LCDS void rs232lc_get_version(const RS232LC* __restrict__ state,
         char* __restrict__ pversion, int len);
 
 /**
- *	Get version of driver.
+ *	Get version of the driver library interface
+ *	API.
  *
  *	@Return non-null terminated string.
  */
