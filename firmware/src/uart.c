@@ -25,13 +25,15 @@ void uart_setbaud(const uint32_t baud){
 	/*	Compute buad.	*/
 	const uint16_t rbaud = (((F_CPU) + 4UL * (BAUD)) / (8UL * (baud)) -1UL);
 
-	/*	Disable */
+	/*	Disable UART. */
+
 
 	/*		Set baud rate register.	*/
 	UBRRH = (rbaud >> 8);
 	UBRRL = (rbaud & 0xff);
 
-	/*	Renable.	*/
+
+	/*	Re-enable UART.	*/
 }
 
 void uart_putchar(const uint8_t c) {

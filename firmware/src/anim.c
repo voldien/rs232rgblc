@@ -53,7 +53,7 @@ const uint8_t const PROGMEM animarray[ANIM_NUM][ANIM_SIZE][3] = {
 };
 
 void animation_create(volatile struct animation_playback_t* anim, uint8_t i){
-	anim->pbuf = (const uint8_t const*)animarray[i];
+	anim->pbuf = (const uint8_t const*)animarray[i % ANIM_NUM];
 }
 
 void animation_get_next_rgb(volatile struct animation_playback_t* anim,
@@ -66,7 +66,7 @@ void animation_get_next_rgb(volatile struct animation_playback_t* anim,
 	*g = ((const uint8_t*)anim->pbuf)[anim->pos * 3 + 1];
 	*b = ((const uint8_t*)anim->pbuf)[anim->pos * 3 + 2];
 
-	/*	Get next position*/
+	/*	Get next position.	*/
 	anim->pos++;
 	anim->pos %= ANIM_SIZE;
 }

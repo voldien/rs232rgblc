@@ -27,6 +27,7 @@ uint8_t spi_ready(void){
 
 uint8_t spi_putchar(uint8_t c){
 
+	/*	Set SPI data register.	*/
 	SPDR = c;
 
 	/*Wait until transmission complete	*/

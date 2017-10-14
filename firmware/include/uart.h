@@ -66,7 +66,8 @@ extern void uart_putchar(const uint8_t c);
 extern void uart_putchar_direct(const uint8_t c);
 
 /**
- *
+ *	Write terminated character string
+ *	to uart.
  */
 extern void uart_putstr(const uint8_t* st);
 
@@ -79,7 +80,10 @@ extern void uart_putstr(const uint8_t* st);
 extern uint8_t uart_getchar(void);
 
 /**
+ *	Read UART RX buffer instantly.
+ *	Will not garantie the data is available.
  *
+ *	@Return value in the RX buffer.
  */
 extern uint8_t uart_direct_getchar(void);
 

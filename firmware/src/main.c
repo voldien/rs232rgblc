@@ -19,6 +19,11 @@
 /**
  *
  */
+struct r232_led_state_t EEMEM ledstate = {0};
+
+/**
+ *
+ */
 const uint8_t PROGMEM statepin0 = PB6;
 const uint8_t PROGMEM statepin1 = PB7;
 const uint8_t PROGMEM sckpin = PB5;
@@ -31,7 +36,8 @@ const uint8_t PROGMEM leddripin = PD3;
 const uint8_t PROGMEM pwmpin = PB2;
 
 /**
- *	Define global variable.
+ *	Define global variable. It's recommended to
+ *	set the queue size in power of two.
  */
 volatile transmit_callback g_state_cb = NULL;
 volatile struct queue_t rx_queue = {
@@ -50,23 +56,6 @@ volatile struct r232_state_t g_state = {
 	.lstate = 0,
 };
 
-/**
- *	Fuses for the state of the microntroller through out
- *	the life time.
- */
-FUSES =
-{
-	.low = LFUSE_DEFAULT,
-	.high = HFUSE_DEFAULT,
-};
-
-/**
- *	Lock
- */
-unsigned char __lock __attribute__((section (".lock"))) =
-        (LB_MODE_1 & BLB0_MODE_3 & BLB1_MODE_4);
-
-
 
 /*	TODO MOVE.	*/
 void transmit_rgb_w2811(uint8_t r, uint8_t g, uint8_t b){
@@ -81,7 +70,7 @@ void transmit_rgb_spidata(uint8_t r, uint8_t g, uint8_t b){
 }
 
 /**
- *
+ *	Timer overflow.
  */
 ISR(TIMER0_OVF_vect){
 

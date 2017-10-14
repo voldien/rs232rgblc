@@ -22,7 +22,7 @@
 #include<avr/pgmspace.h>
 
 /**
- *	Supported baud rates.
+ *	Supported baud rate values.
  */
 extern const uint32_t PROGMEM suppbaud[];
 
@@ -41,14 +41,17 @@ struct protocol_header_data_t{
 };
 
 /**
- *	Protocol command.
+ *	Protocol command enumerator.
  */
 #define R232LCP_SET_STATEL		0x0	/*	Set state in low byte.	*/
 #define R232LCP_SET_STATEH		0x1	/*	Set state in high byte.	*/
 #define R232LCP_SET_LEDD		0x2	/*	Set current LED data.	*/
-#define R232LCP_SET_ANIM		0x3	/*	Set internal animation sequence.	*/
-#define R232LCP_SET_PWM			0x4	/*	Set PWM for the LED.	*/
-#define R232LCP_SET_BAUD		0x5	/*	Set Baud rate.	*/
+#define R232LCP_SET_LEDCLEAR	0x3	/*	Clear LED */
+#define R232LCP_SET_ANIM		0x4	/*	Set internal animation sequence.	*/
+#define R232LCP_SET_PWM			0x5	/*	Set PWM for the LED.	*/
+#define R232LCP_SET_BAUD		0x6	/*	Set Baud rate.	*/
+#define R232LCP_SET_LED_STATE	0x7	/*	Set number of LEDs.	*/
+#define R232LCP_GET_LED_STATE	0x8	/*	Set number of LEDs.	*/
 #define R232LCP_GET_BAUD		0xD	/*	Get Baud rate.	*/
 #define R232LCP_GET_STATE		0xE	/*	Get current state.	*/
 #define R232LCP_GET_VERSION		0xF	/*	Get version in string format.	*/
@@ -65,11 +68,16 @@ typedef void (*protocol_callback)(const uint8_t value);
 extern const protocol_callback const PROGMEM protocol_cmd[16];
 
 /**
- *
- *	@Returns
+ *	Get command from byte.
+ *	@Return command enumerator.
  */
 extern uint8_t get_command(const uint8_t buf);
+
 extern uint8_t get_value(const uint8_t buf);
+
+/**
+ *
+ */
 extern void call_command(const uint8_t command, const uint8_t value);
 
 
@@ -80,12 +88,17 @@ extern void protocol_setstateL(uint8_t value);
 extern void protocol_setstateH(uint8_t value);
 
 /**
- *
+ *	Append LED data.
  */
 extern void protocol_setledd(uint8_t value);
 
 /**
- *
+ *	Clear all LEDs.
+ */
+extern void protocol_setledclaer(uint8_t value);
+
+/**
+ *	Set animation.
  */
 extern void protocol_setanim(uint8_t value);
 extern void protocol_getanim(uint8_t value);
@@ -99,13 +112,32 @@ extern void protocol_getpwm(uint8_t value);
 /**
  *
  */
+extern void protocol_setledcount(uint8_t value);
+extern void protocol_getledcount(uint8_t value);
+
+/**
+ *	Set the buad rate used by the controller.
+ *
+ *	Where the controller only support predefined
+ *	baud rate enumerator as baud rate parameter.
+ */
 extern void protocol_setbaud(uint8_t value);
+
+/**
+ *	Get the current buad rate
+ *	of the controller
+ */
 extern void protocol_getbaud(uint8_t value);
 
 /**
- *
+ *	Get version of the controller as a null
+ *	terminater string.
  */
 extern void protocol_getversion(uint8_t value);
+
+/**
+ *	Get the state of the controller.
+ */
 extern void protocol_getstate(uint8_t value);
 
 

@@ -41,6 +41,10 @@ extern void init_queue(volatile struct queue_t* queue);
  *	Enqueue.
  */
 extern void queue_enqu(volatile struct queue_t* queue, const uint8_t v);
+
+/**
+ *	Write null terminated string to queue.
+ */
 extern void queue_enqustr(volatile struct queue_t* queue, const uint8_t* v);
 
 /**

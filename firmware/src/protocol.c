@@ -16,11 +16,11 @@ const protocol_callback const PROGMEM protocol_cmd[16] = {
 		protocol_setstateL,
 		protocol_setstateH,
 		protocol_setledd,
+		NULL,
 		protocol_setanim,
 		protocol_setpwm,
 		protocol_setbaud,
 		protocol_getbaud,
-		NULL,
 		NULL,
 		NULL,
 		NULL,
@@ -32,7 +32,7 @@ const protocol_callback const PROGMEM protocol_cmd[16] = {
 
 
 uint8_t get_command(const uint8_t buf){
-	return (buf & 0xF0) >> 4;
+	return ( (buf & 0xF0) >> 4 );
 }
 uint8_t get_value(const uint8_t buf){
 	return (buf & 0xF0);
@@ -68,6 +68,14 @@ void protocol_setpwm(uint8_t value){
 	pwm_set_value(value);
 }
 
+void protocol_setledcount(uint8_t value){
+	eeprom_update_byte(&ledstate.numled, value);
+}
+void protocol_getledcount(uint8_t value){
+	uint8_t num = eeprom_read_byte(&ledstate.numled);
+	queue_enqu(&tx_queue, num);
+}
+
 
 void protocol_setbaud(uint8_t value){
 
@@ -84,7 +92,6 @@ void protocol_setbaud(uint8_t value){
 void protocol_getbaud(uint8_t value){
 	uart_putchar(g_state.baud);
 }
-
 
 #define VERSION ""
 const uint8_t* const PROGMEM version = (const uint8_t*)VERSION;

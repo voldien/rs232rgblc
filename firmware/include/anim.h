@@ -17,16 +17,17 @@
 
 */
 #ifndef _R232_LEDC_ANIM_H_
-#define _R232_LEDC_ANIM_H_
+#define _R232_LEDC_ANIM_H_ 1
 #include<stdio.h>
 #include<avr/pgmspace.h>
 #include<avr/eeprom.h>
 
 /**
- *	Animation constant
+ *	Animation constants.
+ *	Recommanded to be a power of two.
  */
 #define ANIM_NUM 8		/*	Number of animation.	*/
-#define ANIM_SIZE 32	/*	Number of key animation value.	*/
+#define ANIM_SIZE 64	/*	Number of key animation value.	*/
 
 /**
  *	Animation array. Each animation consist
@@ -57,8 +58,7 @@ extern void animation_create(volatile struct animation_playback_t* anim,
  *	Get next RGB value from animation playback.
  */
 extern void animation_get_next_rgb(volatile struct animation_playback_t* anim,
-		uint8_t* __restrict__ r,
-		uint8_t* __restrict__ g,
-		uint8_t* __restrict__ b);
+        uint8_t* __restrict__ r, uint8_t* __restrict__ g,
+        uint8_t* __restrict__ b);
 
 #endif
