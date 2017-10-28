@@ -228,7 +228,20 @@
 #endif
 
 /**
- *	library declaration.
+ *	Force inline.
+ */
+#if defined(R232LC_MSVC)
+	#define R232LC_ALWAYS_INLINE __forceinline
+#elif defined(R232LC_GNUC)
+	#define R232LC_ALWAYS_INLINE inline __attribute__((always_inline))
+#elif defined(R232LC_GNUC) || defined(R232LC_GHS)
+	#define R232LC_ALWAYS_INLINE inline __attribute__((always_inline))
+#else
+	/*#pragma message("Warning: You'd need to add HPM_ALWAYS_INLINE for this compiler.")*/
+#endif
+
+/**
+ *	Library declaration.
  */
 #if defined(R232LC_GNUC) || defined(R232LC_LLVM)
 	#if defined(R232LC_UNIX)
