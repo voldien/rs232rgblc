@@ -20,7 +20,7 @@ struct protocol_header_t{
 #define R232LCP_GET_VERSION     0xF	/*	Get version in string format.	*/
 
 
-static inline int rs232lc_write(const RS232LC* __restrict__ state, uint32_t command,
+static R232LC_ALWAYS_INLINE int rs232lc_write(const RS232LC* __restrict__ state, uint32_t command,
 		const uint8_t* __restrict__ buf, size_t len) {
 
 	int i;
@@ -40,7 +40,7 @@ static inline int rs232lc_write(const RS232LC* __restrict__ state, uint32_t comm
 	return e;
 }
 
-static inline int rs232lc_read(const RS232LC* __restrict__ state,
+static R232LC_ALWAYS_INLINE int rs232lc_read(const RS232LC* __restrict__ state,
 		uint8_t* __restrict__ buf, size_t len) {
 	return read(state->fd, buf, len);
 }
