@@ -166,7 +166,7 @@ extern R232LCDS uint32_t rs232lc_get_anim(const RS232LC* state);
 /**
  *	Set/Get bitwise state.
  */
-extern R232LCDS void r232lc_set_state(RS232LC* state, unsigned int state);
+extern R232LCDS void r232lc_set_state(RS232LC* state, uint32_t state);
 
 /**
  *	Get quad word state flag of the controller.

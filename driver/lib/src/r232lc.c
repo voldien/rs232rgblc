@@ -48,6 +48,7 @@ static R232LC_ALWAYS_INLINE int rs232lc_read(const RS232LC* __restrict__ state,
 int rs232lc_init(RS232LC* state, int fd){
 
 	struct termios settings;
+	const int ipwm = 192;
 
 	/*	Check valid fd.	*/
 	if(fd < 0)
@@ -81,7 +82,7 @@ int rs232lc_init(RS232LC* state, int fd){
 	state->state = 0;
 	state->anim = 0;
 	rs232lc_set_baud(state, BAUD9600);
-	rs232lc_set_pwm(state, 192);
+	rs232lc_set_pwm(state, ipwm);
 	
 	return 1;
 }
@@ -172,8 +173,8 @@ uint32_t rs232lc_get_anim(const RS232LC* state){
 }
 
 void r232lc_set_state(RS232LC* state, uint32_t lc_state){
-	uint8_t lh = (lc_state & 0xff);
-	uint8_t hh = (lc_state & 0xff);
+	const uint8_t lh = (lc_state & 0xFF);
+	const uint8_t hh = (lc_state & 0xFF);
 
 	rs232lc_write(state, R232LCP_SET_STATEL, &lh, 1);
 	rs232lc_write(state, R232LCP_SET_STATEH, &hh, 1);
